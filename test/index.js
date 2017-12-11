@@ -127,4 +127,18 @@ describe('r2pwless', () => {
         .catch(done);
     }, 10);
   });
+
+  it('should create token via different type', (done) => {
+    Pwless.createToken({ email: 'test4@app.com', name: 'Test 4', slug: 'test4' }, 'create-team')
+      .then((tokenData) => {
+        const { email, type, token, data } = tokenData.doc;
+        expect(email).to.equal('test4@app.com');
+        expect(type).to.equal('create-team');
+        expect(token).to.not.equal(undefined);
+        expect(data).to.deep.equal({ slug: 'test4', name: 'Test 4' });
+        expect(tokenData.created).to.equal(true);
+        done();
+      })
+      .catch(done);
+  });
 });
